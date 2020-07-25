@@ -14,6 +14,13 @@ sudo mv ./kubens /usr/local/bin/kubens
 ```
 
 ## Kube ops view
+```
+git clone https://github.com/hjacobs/kube-ops-view
+```
+
+```
+cd kube-ops-view/deploy
+```
 
 ## Kubebox
 Consola de linea de comandos para kubernetes + metricas
