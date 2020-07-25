@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+  labels:
+    name: code-server
+spec:
+  selector:
+    matchLabels:
+      name: code-server
+  template:
+    metadata:
+      labels:
+        name: code-server
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128M"
+            limits:
+              cpu: "100m"
+              memory: "256M"
+          volumeMounts:
+            - name: workdir
+              mountPath: /usr/share/nginx/html/test
+        - image: linuxserver/code-server
+          name: code-server
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128M"
+            limits:
+              cpu: "100m"
+              memory: "256M"
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/Guatemala
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: code-server
+                  key: secretKey
+          ports:
+            - containerPort: 8443
+              name: code-server
+          volumeMounts:
+            - name: workdir
+              mountPath: /cofig/workspace
+      volumes:
+        - name: workdir
+          emptyDir: {}
